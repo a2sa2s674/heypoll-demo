@@ -278,6 +278,7 @@ function PersonaInterviewPanel({ persona, brandColor, onClose, onOpenPanel }) {
   const [isTyping, setIsTyping] = useState(false);
   const [finished, setFinished] = useState(false);
   const chatEndRef = useRef(null);
+  const hasStarted = useRef(false);
 
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
@@ -300,7 +301,11 @@ function PersonaInterviewPanel({ persona, brandColor, onClose, onOpenPanel }) {
     setTimeout(() => askNext(), 600);
   };
 
-  useEffect(() => { startInterview(); }, []);
+  useEffect(() => {
+    if (hasStarted.current) return;
+    hasStarted.current = true;
+    startInterview();
+  }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
